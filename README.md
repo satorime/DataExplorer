@@ -142,37 +142,6 @@ If your columns use different names, rename them before uploading.
 
 ---
 
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── Header.jsx        # App header, nav tabs, active dataset display
-│   ├── UploadZone.jsx    # Drag-and-drop upload, CSV/JSON parsing
-│   ├── DataTable.jsx     # Filterable, sortable, paginated data table
-│   ├── Charts.jsx        # Auto-generated Chart.js visualizations
-│   ├── MapPanel.jsx      # Leaflet map with auto geo-field detection
-│   └── ExportPanel.jsx   # Field summary stats + multi-format export
-├── App.jsx               # Root component, state management
-├── index.css             # Global styles, Tailwind import, Google Fonts
-└── main.jsx              # React entry point
-```
-
----
-
-## Design System
-
-The UI follows a **Minimalist Monochrome** design language:
-
-- **Palette:** Pure black (`#000`) and white (`#fff`) only — no accent colors
-- **Typography:** Playfair Display (headlines) · Source Serif 4 (body) · JetBrains Mono (labels, data)
-- **Borders:** Sharp 90° corners everywhere, no border-radius
-- **Depth:** Created through color inversion and border weight — no shadows
-- **Motion:** 100ms transitions maximum; hover states invert black/white
-- **Textures:** Subtle repeating line patterns and grid overlays for depth
-
----
-
 ## Example Datasets to Try
 
 Any public CSV works. Some suggestions:
