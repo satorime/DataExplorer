@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { MapContainer, TileLayer, CircleMarker, Popup, ZoomControl } from 'react-leaflet'
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 const LAT_KEYS = ['lat', 'latitude', 'Latitude', 'LAT', 'y', 'Y', 'lat_deg']
@@ -15,6 +16,7 @@ export default function MapPanel({ data, fields }) {
   const { lat: latField, lon: lonField } = useMemo(() => detectGeoFields(fields), [fields])
   const [colorField, setColorField] = useState('')
   const [sizeField, setSizeField] = useState('')
+  const canvasRenderer = useMemo(() => L.canvas({ padding: 0.5 }), [])
 
   const numFields = useMemo(() => {
     return fields.filter(f => {
@@ -33,7 +35,6 @@ export default function MapPanel({ data, fields }) {
         i
       }))
       .filter(p => !isNaN(p.lat) && !isNaN(p.lon) && p.lat >= -90 && p.lat <= 90 && p.lon >= -180 && p.lon <= 180)
-      .slice(0, 2000)
   }, [data, latField, lonField])
 
   const center = useMemo(() => {
@@ -47,7 +48,8 @@ export default function MapPanel({ data, fields }) {
   const sizeValues = useMemo(() => {
     if (!sizeField) return null
     const vals = points.map(p => parseFloat(p.row[sizeField]) || 0)
-    const min = Math.min(...vals), max = Math.max(...vals)
+    const min = vals.reduce((a, b) => a < b ? a : b, Infinity)
+    const max = vals.reduce((a, b) => a > b ? a : b, -Infinity)
     return { vals, min, max }
   }, [points, sizeField])
 
@@ -147,6 +149,7 @@ export default function MapPanel({ data, fields }) {
               key={i}
               center={[p.lat, p.lon]}
               radius={getRadius(i)}
+              renderer={canvasRenderer}
               pathOptions={{
                 fillColor: '#000',
                 fillOpacity: 0.7,
@@ -180,12 +183,6 @@ export default function MapPanel({ data, fields }) {
           className="text-[#525252]">
           Lon field: <strong className="text-black">{lonField}</strong>
         </span>
-        {data.length > 2000 && (
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }}
-            className="text-[#525252]">
-            Showing first 2,000 of {data.length.toLocaleString()} points
-          </span>
-        )}
       </div>
     </section>
   )

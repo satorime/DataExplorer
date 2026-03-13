@@ -14,8 +14,8 @@ function getSummaryStats(data, fields) {
       stats[f] = {
         type: 'numeric',
         count: nums.length,
-        min: Math.min(...nums),
-        max: Math.max(...nums),
+        min: nums.reduce((a, b) => a < b ? a : b, Infinity),
+        max: nums.reduce((a, b) => a > b ? a : b, -Infinity),
         mean: sum / nums.length,
         median: sorted[Math.floor(sorted.length / 2)],
         sum,
