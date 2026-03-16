@@ -113,8 +113,10 @@ export default function App() {
           Dataset <em>Explorer</em>
         </div>
         <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: '0.05em' }}
-          className="text-[#525252]">
-          Built with React · Chart.js · Leaflet · Tailwind CSS
+          className="text-[#525252] flex flex-col md:flex-row md:items-center gap-3">
+          <span>Built with React · Chart.js · Leaflet · Tailwind CSS</span>
+          <span className="hidden md:inline opacity-30">·</span>
+          <span>© 2026 Brix Bitayo · All rights reserved</span>
         </div>
       </footer>
     </div>
